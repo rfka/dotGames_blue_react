@@ -1,0 +1,58 @@
+.tudo{
+    display: flex;
+    justify-content: center;
+    background-color: rgba(71, 135, 231, 0.4);
+    width: auto;
+    height: 80px;
+}
+
+.menu{
+    display: flex;
+    justify-content: space-around;
+    width: 600px;
+    height: 80px;
+}
+
+.logo{
+    margin-top: 15px;
+    width: 80px;
+    height: 80px;
+    background-image: url("./img/logo.png");
+    background-repeat: no-repeat;
+}
+
+.links{
+    display: flex;
+    align-items: center;
+}
+
+ul{
+    display: flex;
+
+}
+
+nav ul,
+nav li{
+    display: flex;
+    list-style: none;
+   
+}
+
+a{
+    display: block;
+    padding: 15px;
+    font-size: 28px;
+    font-weight: bolder;
+    color: #FADC11;
+}
+
+nav ul{
+    display: flex;
+}
+
+ul li a{
+    display: flex;
+    text-decoration: none;
+    text-transform:uppercase;
+    text-shadow: 2px 2px rgb(26, 26, 26);
+}

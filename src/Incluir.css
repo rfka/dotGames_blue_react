@@ -1,0 +1,31 @@
+  article{
+    display: flex;
+    margin: auto;
+    justify-content: center;
+    padding-bottom: 250px;
+  }
+
+  .formulario{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    
+
+  }
+
+  .formulario input[type='submit']{
+    background: #248f36;
+    cursor: pointer;
+    color:#fff;
+    font-weight: bold;
+    border:none;
+    border-radius: 5px;
+    font-size: 20px;
+  }
+
+  .formulario input
+  .formulario select{
+    margin: 2px 0; 
+    height: 30px; 
+    color:#333;
+  }

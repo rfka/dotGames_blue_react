@@ -1,0 +1,67 @@
+article{
+  display: flex;
+  margin: auto;
+  justify-content: center;
+  padding-bottom: 20px;
+}
+
+.conteudo-jogos{
+  display: flex;
+  flex-wrap: wrap;
+  width: 980px;
+  height: auto;  
+}
+
+.tudo_jogos{
+  padding: 10px;
+}
+
+.jogos{
+  box-shadow: 10px 5px 5px black;
+  width: auto;
+  flex: 1;
+  border: 1px solid grey;
+}
+
+.imagem_jogo img{
+  display: flex;
+  width: 465px;
+  height: 320px;
+} 
+
+.nome_jogo{
+  background-color: cornflowerblue;
+  padding: 10px;
+}
+
+.categoria_jogo{
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+  text-align: center;
+}
+
+.classificacao{
+  border-radius: 5px;
+  color: white;
+  height: 60px;
+  padding-top: 20px;
+  font-size: 30px;
+}
+
+.oculto{
+  display: hidden;
+}
+
+h1{
+  text-align: center;
+  font-family: 'Crimson Text', serif;
+  font-size: 50px;
+}
+
+.cL{background-color: green;}
+.c10{background-color: blue;}
+.c12{background-color: yellow;}
+.c14{background-color: orange;}
+.c16{background-color: red;}
+.c18{background-color: black;}
