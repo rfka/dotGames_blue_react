@@ -1,152 +1,165 @@
-import React from 'react';
+import React, {useState, useEffect} from 'react';
+import AnchorLink from 'react-anchor-link-smooth-scroll';
+import './Incluir'
 import './Main.css';
 
-export default class Main extends React.Component {
+const BASE_URL = 'http://localhost:5000';
 
-constructor(props) {
-    super(props);
+export default function Main() {
 
-    this.state = {
+    const [jogos, setJogos] = useState([]);
+    const [nomeJogo, setNomeJogo] = useState("");
+    const [imagemUrlJogo, setImageUrlJogo] = useState("");
+    const [classificacaoJogo, setClassificacaoJogo] = useState("");
+    const [categoriaJogo, setCategoriaJogo] = useState("");
+    const [editando, setEditando] = useState(false);
+    const [idEditando, setIdEditando] = useState(null);
 
-    jogos: [
-    {
-        id:1,
-        nome:"Blaster Master Zero 3",
-        urlimagem:"https://www.ultimaficha.com.br/wp-content/uploads/2021/05/blaster-master-zero-3-780x470.jpg",
-        categoria:"Ação/Aventura",
-        classificacao:"12"
-    },
-    {
-        id:2,
-        nome:"Final Fantasy III",
-        urlimagem:"https://images6.alphacoders.com/105/thumb-1920-1053313.jpg",
-        categoria:"RPG",
-        classificacao:"14"
-    },
-    {
-        id:3,
-        nome:"Crash Bandicoot™ N. Sane Trilogy",
-        urlimagem:"https://cdn02.nintendo-europe.com/media/images/11_square_images/games_18/nintendo_switch_5/SQ_NSwitch_CrashBandicootNSaneTrilogy.jpg",
-        categoria:"Aventura",
-        classificacao:"10"
-    },
-    {
-        id:4,
-        nome:"Diablo IV",
-        urlimagem:"https://bnetcmsus-a.akamaihd.net/cms/page_media/xb/XBMMNKOZ8ILU1625080135362.jpg",
-        categoria:"RPG",
-        classificacao:"16"
-    },
-    {
-        id:5,
-        nome:"Street Fighter IV",
-        urlimagem:"https://mcdn.wallpapersafari.com/medium/7/97/Z5pHiS.jpg",
-        categoria:"Luta",
-        classificacao:"10"
-    },
-    {
-        id:6,
-        nome:"Enduro - Atari",
-        urlimagem:"https://s2.glbimg.com/jFOk7XHORze18GQbFeja4bLQYDU=/0x0:695x390/984x0/smart/filters:strip_icc()/i.s3.glbimg.com/v1/AUTH_08fbf48bc0524877943fe86e43087e7a/internal_photos/bs/2017/O/J/jAKrPMRfOMd1iV9iKezg/atari-2600-corrida-enduro.jpg",
-        categoria:"Corrida",
-        classificacao:"L"
-    },
-],
-    nomeJogo: "",
-    imagemurlJogo:"",
-    classificacaoJogo:"",
-    categoriaJogo:"",
-    editando: false,
-    indexEditando: null,
-};
-}
+    const loadJogos = async()=> {
+        const response = await fetch(`${BASE_URL}/jogos`);
+        const data = await response.json();
+        setJogos(data);
+    };
 
-onSubmit = (e) => {
-    e.preventDefault();
+    useEffect(()=>{
+        loadJogos();
+    }, []);
 
-    const {jogos, editando, indexEditando, nomeJogo, imagemurlJogo, categoriaJogo, classificacaoJogo} = this.state;
+    useEffect(()=>{
+        if (idEditando !== null && editando){
+            const jogo = jogos.find((j)=>j._id === idEditando);
+            setNomeJogo(jogo.nome);
+            setImageUrlJogo(jogo.imagemUrl);
+            setCategoriaJogo(jogo.categoria);
+            setClassificacaoJogo(jogo.classificacao);
+        }
+    }, [idEditando]);
 
-    if (editando) {
-        const jogosAtualizados = jogos.map((j, index) =>{
-            if(indexEditando === index) {
-                j.nome = nomeJogo;
-                j.imagemurl = imagemurlJogo;
-                j.categoria = categoriaJogo;
-                j.classificacao = classificacaoJogo;
-            }
+    const onSubmit = async (e) => {
+        e.preventDefault();
 
-        return j;
-    });
-
-    this.setState({
-        jogos: jogosAtualizados,
-        indexEditando: null,
-        editando: false,
-    });
-    }else{
-        this.setState({
-            jogos: [...jogos,
-            {
-                nome: nomeJogo,
-                imagemurl: imagemurlJogo,
-                categoria: categoriaJogo,
-                classificacao: classificacaoJogo,
+        if (editando) {
+            await fetch(`${BASE_URL}/jogos/${idEditando}`,{
+                method: 'PUT',
+                headers: {'Content-Type': 'application/json',
             },
-        ],
-    });
-    }
-
-    this.setState({
-        nomeJogo: "",
-        imagemurlJogo: "",
-        categoria: categoriaJogo,
-        classificacao: classificacaoJogo,
-    });
-    };
-
-    deletar = (index) => {
-        const {jogos} = this.state;
-        this.setState({
-            jogos: jogos.filter((j, i) => i!== index),
+            body: JSON.stringify({
+                nome: nomeJogo,
+                imagemUrl: imagemUrlJogo,
+                classificacao: classificacaoJogo,
+                categoria: categoriaJogo,
+            }),
         });
+
+        setEditando(false);
+        setIdEditando(null);
+        }else{
+            await fetch(`${BASE_URL}/jogos`,{
+                method: 'POST',
+                headers: {'Content-Type': 'application/json'},
+
+                body: JSON.stringify({
+                    nome: nomeJogo,
+                    imagemUrl: imagemUrlJogo,
+                    classificacao: classificacaoJogo,
+                    categoria: categoriaJogo,
+                }),
+            });
+        }
+
+        loadJogos();
+        setNomeJogo('');
+        setImageUrlJogo('');
+        setCategoriaJogo('');
+        setClassificacaoJogo('');
     };
-    
-    render(){
-        const {jogos, nomeJogo, imagemurlJogo, classificacaoJogo, categoriaJogo, editando, indexEditando} = 
-            this.state;
-        return(
-            <>
-            <h1>Catálago de Jogos dotGames</h1>
-            <article id='jogos'>
-                <div className='conteudo-jogos'>
-                    {jogos.map((j, index) => (
-                        <div className='tudo_jogos'>
-                            <div className='jogos'>
-                                <p className='oculto' key={index}></p>
-                                <div className='nome_jogo'>
-                                    <h3>{j.nome}</h3>
+
+    const deletar = async (id) =>{
+        await fetch(`${BASE_URL}/jogos/${id}`, {
+            method: "DELETE",
+        });
+        loadJogos();
+    };
+
+    return(
+        <>
+        <h1>Catálago de Jogos dotGames</h1>
+        <article id='jogos'>
+            <div className='conteudo-jogos'>
+                {jogos.map((j, index) => (
+                    <div className='tudo_jogos'>
+                        <div className='jogos'>
+                            <div className='oculto' key={index}></div>
+                            <div className='nome_jogo'>
+                                <h3>{j.nome}</h3>
+                            </div>
+                            <div className='imagem_jogo'>
+                                <img src={j.imagemUrl} alt={j.nome} />
+                            </div>
+                            <div className='categoria_jogo'>
+                                <div>
+                                    <p>Categoria:</p>
+                                    <h3>{j.categoria}</h3>
                                 </div>
-                                <div className='imagem_jogo'>
-                                    <img src={j.urlimagem} alt={j.nome} />
-                                </div>
-                                <div className='categoria_jogo'>
-                                    <div>
-                                        <p>Categoria:</p>
-                                        <h3>{j.categoria}</h3>
-                                    </div>
-                                    <div>
-                                        <p>Classificação: </p>
-                                        <h3 className={'classificacao'+' c'+j.classificacao}>
-                                            {j.classificacao}
-                                        </h3>
-                                    </div>
+                                <div>
+                                    <p>Classificação: </p>
+                                    <h3 className={'classificacao' + ' c'+j.classificacao}>
+                                        {j.classificacao}
+                                    </h3>
                                 </div>
                             </div>
-                        </div>)
-                    )} 
-                </div>
-            </article>
-            </>
-        );
-    }
+                            <div className="botoes">
+                                <AnchorLink className="editar" href='#incluir'><button onClick={()=> {setEditando(true);setIdEditando(j._id)}}>Editar</button></AnchorLink>
+                                <AnchorLink className="deletar" href='#jogos'><button onClick={()=> deletar(j._id)}>Deletar</button></AnchorLink>
+                            </div>
+                        </div>
+                    </div>)
+                )} 
+            </div>
+        </article>
+
+        {/* /////////////////////////////////////////////////////////////////////////////////////////////// */}
+
+        <article id='incluir'>
+        <div className='conteudo'>
+            <h1>{editando ? `Editando: ${jogos.find((j)=> j._id === idEditando)?.nome}`: "Cadastre um novo Jogo!!"}</h1>
+            <div className='container-formulario'>
+            <form className='formulario' onSubmit={onSubmit}>
+                <input placeholder="Nome" value={nomeJogo} onChange={(e) =>{
+                    setNomeJogo(e.target.value);
+                }}/>
+                <br />
+                <input placeholder="URL da imagem" value={imagemUrlJogo} onChange={(e) =>{
+                    setImageUrlJogo(e.target.value);
+                }}/>
+                <br />
+                <input placeholder="Categoria" value={categoriaJogo} onChange={(e) =>{
+                    setCategoriaJogo(e.target.value);
+                }}/>
+                <br />
+
+                {/* <select
+                    value={this.state.selectedValue}
+                    onChange={this.handleSelectChange}>
+                        <option value="#">Selecione a Classificação</option>
+                        <option value="L">Livre</option>
+                        <option value="10">10 Anos</option>
+                        <option value="12">12 Anos</option>
+                        <option value="14">14 Anos</option>
+                        <option value="16">16 Anos</option>
+                        <option value="18">18 Anos</option>
+                </select> */}
+
+
+                <input placeholder="Classificação" value={classificacaoJogo} onChange={(e) =>{
+                    setClassificacaoJogo(e.target.value);
+                }}/>
+                <br />
+                <input type="submit" value='Salvar'/>
+            </form>
+            </div>
+        </div>
+    </article>
+        </>
+    );
 }

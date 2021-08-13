@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import Header from './Header';
 import Main from './Main';
-// import Incluir from './Incluir'
+import Incluir from './Incluir'
 import Footer from './Footer';
 import Nav from './Nav'
 import './Nav.css';
@@ -18,7 +18,7 @@ export default class App extends React.Component{
         <div>
           <Header/>
           <Main/>
-          {/* <Incluir/> */}
+          <Incluir/>
           <Footer/>
         </div>
         </section>

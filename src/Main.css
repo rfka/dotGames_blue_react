@@ -17,20 +17,22 @@ article{
 }
 
 .jogos{
-  box-shadow: 10px 5px 5px black;
+  box-shadow: 0 1px 6px rgb(32 33 36 / 28%);
   width: auto;
   flex: 1;
-  border: 1px solid grey;
+  border: 1px solid rgb(32 33 36 / 28%);
+  border-radius: 5px;
 }
 
 .imagem_jogo img{
   display: flex;
-  width: 465px;
+  width: 425px;
   height: 320px;
+  border-radius: 10px;
+  margin: 0 20px;
 } 
 
 .nome_jogo{
-  background-color: cornflowerblue;
   padding: 10px;
 }
 
@@ -50,7 +52,10 @@ article{
 }
 
 .oculto{
-  display: hidden;
+  /* display: hidden; */
+  background-color: cornflowerblue;
+  height: 20px;
+  width: auto;
 }
 
 h1{
@@ -59,9 +64,86 @@ h1{
   font-size: 50px;
 }
 
+.botoes{
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  background-color: cornflowerblue;
+  margin-bottom: -1px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+.botoes button{
+  width: 150%;
+  cursor: pointer;
+  color:#fff;
+  font-weight: bold;
+  border:none;
+  border-radius: 5px;
+  font-size: 20px;
+}
+
+.editar button {
+  background-color: yellow;
+  text-shadow: 0px 0px 4px rgb(26 26 26);
+  margin-left: -15px;
+  padding: 5px;
+}
+
+.deletar button{
+  background-color:red;
+  text-shadow: 0px 0px 4px rgb(26 26 26);
+  margin-left: -15px;
+  padding: 5px;
+}
+
 .cL{background-color: green;}
 .c10{background-color: blue;}
 .c12{background-color: yellow;}
 .c14{background-color: orange;}
 .c16{background-color: red;}
 .c18{background-color: black;}
+
+/* ========================================================================================
+======================================================================================== */
+
+article{
+  display: flex;
+  margin: auto;
+  justify-content: center;
+  padding-bottom: 250px;
+}
+
+#incluir{
+  padding-bottom: 350px;
+}
+
+.formulario{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 435px;
+}
+
+.formulario input[type='submit']{
+  background: #248f36;
+  cursor: pointer;
+  color:#fff;
+  font-weight: bold;
+  border:none;
+  border-radius: 5px;
+  font-size: 20px;
+}
+
+.formulario input
+.formulario select{
+  margin: 2px 0; 
+  height: 30px; 
+  color:#333;
+}
+
+.container-formulario{
+  display: flex;
+  justify-content: center;
+}
